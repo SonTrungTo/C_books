@@ -1,6 +1,6 @@
 /* Program to translate type-in integer to
    be read in English for each digit.      */
-// This program sucks when there is a '0' as its digits.
+//NOTE: This program sucks when there is a '0' as its digits.
 #include <stdio.h>
 
 int main(void) {
