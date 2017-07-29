@@ -1,11 +1,11 @@
 // function to raise an integer to a positive integer power.
 #include <stdio.h>
 
-unsigned long int   x_to_the_n(int x, int n){
-  unsigned long int    result;
+long long int   x_to_the_n(int x, int n){
+  long int    result;
 
   if (x == 0 && n == 0)
-    return 0;
+    return -1;
   else if (n == 0)
     result = 1;
   else
@@ -15,11 +15,20 @@ unsigned long int   x_to_the_n(int x, int n){
 }
 
 int main(void) {
-  int                 i;
-  unsigned long int   x_to_the_n(int x, int n);
+  int             x, i;
+  long long int   x_to_the_n(int x, int n);
 
-  for (i = 0; i <= 10; i++)
-    printf("0^{%2i} = %lu\n", i, x_to_the_n(0,i)); // 0^0 is NaN.
+  printf("Enter a number x:\n");
+  scanf("%i", &x);
+  printf("\n\n");
+
+  for (i = 0; i <= 10; i++) {
+    if (x_to_the_n(x,i) < 0) {
+      printf(" 0^{ 0} = NaN\n");
+      continue;
+    }
+    printf("%2i^{%2i} = %lli\n", x, i, x_to_the_n(x,i));
+  }
 
   return 0;
 }
