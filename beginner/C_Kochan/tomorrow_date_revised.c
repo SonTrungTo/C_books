@@ -37,22 +37,18 @@ int numberOfDays(struct date d) {
 }
 
 // Function to update tomorrow date.
+// UPDATE: Rewritten using COMPOUND LITERALS
 
 struct date dateUpdate(struct date d) {
   struct date   tomorrow;
+  int           numberOfDays(struct date d); // This is not the same d!
 
   if (d.day != numberOfDays(d)) {
-    tomorrow.day      = d.day + 1;
-    tomorrow.month    = d.month;
-    tomorrow.year     = d.year;
+    tomorrow = (struct date) {d.day + 1, d.month, d.year};
   } else if (d.month  == 12) {     // end of year
-    tomorrow.day      = 1;
-    tomorrow.month    = 1;
-    tomorrow.year     = d.year  + 1;
+    tomorrow = (struct date) {1, 1, d.year + 1};
   } else {                        // end of month
-    tomorrow.day      = 1;
-    tomorrow.month    = d.month + 1;
-    tomorrow.year     = d.year;
+    tomorrow = (struct date) {1, d.month + 1, d.year};
   }
 
   return tomorrow;
