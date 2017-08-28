@@ -23,8 +23,11 @@ struct date {
 };
 
 int f(int year, int month) {
-  
-  return 0;
+
+  if (month <= 2)
+    year -= 1;
+
+  return year;
 }
 
 int g(int month) {
@@ -43,6 +46,13 @@ int N(struct date  d) {
 
   result = 1461 * f(d.year, d.month) / 4 + 153 * g(d.month) / 5 + d.day;
 
+  if (d.year == 1800 && d.month >= 3 || d.year > 1800 && d.year < 1900
+  || d.year == 1900 && d.month < 3)
+    result += 1;
+  else if (d.year == 1700 && d.month >= 3 || d.year > 1700 && d.year < 1800
+  || d.year == 1800 && d.month <=2)
+    result += 2;
+
   return result;
 }
 
@@ -56,9 +66,9 @@ int main(void) {
   scanf("%i/%i/%i", &secondDate.day, &secondDate.month, &secondDate.year);
 
   printf("\n");
-  printf("The number of days elapsed between %i/%i/%i", firstDate.day,
+  printf("The number of days elapsed between %i/%i/%i ", firstDate.day,
 firstDate.month, firstDate.year);
-  printf("and %i/%i/%i", secondDate.day, secondDate.month, secondDate.year);
+  printf("and %i/%i/%i ", secondDate.day, secondDate.month, secondDate.year);
   printf("is %i day(s) \n", N(secondDate) - N(firstDate));
 
   return 0;
