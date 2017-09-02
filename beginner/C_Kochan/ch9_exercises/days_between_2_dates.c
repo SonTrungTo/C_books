@@ -13,6 +13,9 @@
  * The above formula is applicable for dates after March 1, 1900.
  * 1 must be added to N for dates from March 1, 1800 to Feb 28, 1900
  * 2 must be added to N for dates from March 1, 1700 to Feb 28, 1800
+ *
+ *  (N - 621,049) % 7 = 0 .. 6 : Sunday -> Saturday
+ *  We will use function dayOfWeek(int value);
  */
 #include <stdio.h>
 
@@ -56,9 +59,37 @@ int N(struct date  d) {
   return result;
 }
 
+void dayOfWeek(int  value) {
+  int i, j;
+  struct dayWithName {
+    int   dayNumber;
+    char  dayName[9];
+  };
+
+  const struct dayWithName dayNames[7] = {
+    {0,{'S','u','n','d','a','y'}},{1,{'M','o','n','d','a','y'}},
+    {2,{'T','u','e','s','d','a','y'}},{3,{'W','e','d','n','e','s','d','a','y'}},
+    {4,{'T','h','u','r','s','d','a','y'}},{5,{'F','r','i','d','a','y'}},
+    {6,{'S','a','t','u','r','d','a','y'}}
+  };
+
+  value = (value - 621049) % 7;
+
+  for (i = 0; i < 7; i++) {
+    if (value == dayNames[i].dayNumber) {
+      for (j = 0; j < 9; j++)
+        printf("%c", dayNames[i].dayName[j]);
+
+      break;
+    }
+  }
+  printf("\n");
+}
+
 int main(void) {
   struct date  firstDate, secondDate;
   int          N(struct date  d);
+  void         dayOfWeek(int value);
 
   printf("Enter the first date (dd/mm/yyyy): ");
   scanf("%i/%i/%i", &firstDate.day, &firstDate.month, &firstDate.year);
@@ -69,7 +100,14 @@ int main(void) {
   printf("The number of days elapsed between %i/%i/%i ", firstDate.day,
 firstDate.month, firstDate.year);
   printf("and %i/%i/%i ", secondDate.day, secondDate.month, secondDate.year);
-  printf("is %i day(s) \n", N(secondDate) - N(firstDate));
+  printf("is %i day(s) \n\n", N(secondDate) - N(firstDate));
+
+  printf("The day of %i/%i/%i is ", firstDate.day, firstDate.month,
+firstDate.year);
+  dayOfWeek(N(firstDate));
+  printf("The day of %i/%i/%i is ", secondDate.day, secondDate.month,
+secondDate.year);
+  dayOfWeek(N(secondDate));
 
   return 0;
 }
