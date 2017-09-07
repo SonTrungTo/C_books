@@ -10,11 +10,14 @@ struct entry {
   char      definition[50];
 };
 
-//--- equalStrings
+//--- equalStrings, improved!
 bool equalStrings(const char s1[], const char s2[]) {
   int i = 0;
 
-  while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+/* We remove the condition s2[i] != '\0' by the following proof: Suppose s2[i] == '\0'
+* then s1[i] == '\0', but this contradicts that s1[i] != '\0'.
+*/
+  while (s1[i] == s2[i] && s1[i] != '\0')
     ++i;
 
   if (s1[i] == s2[i])
