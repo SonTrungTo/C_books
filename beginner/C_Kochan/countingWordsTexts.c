@@ -20,7 +20,7 @@ void readLine(char buffer[]) {
 }
 
 bool alphabetic(const char c) {
-  if ((c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A'))
+  if ((c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A') || c == '\'')
     return true;
   else
     return false;
