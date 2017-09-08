@@ -20,7 +20,28 @@ void readLine(char buffer[]) {
 }
 
 bool alphabetic(const char c) {
-  if ((c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A') || c == '\'')
+  if ( (c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A') )
+    return true;
+  else
+    return false;
+}
+
+bool apostrophe(const char c) {
+  if (c == '\'')
+    return true;
+  else
+    return false;
+}
+
+bool number(const char c) {
+  if ( (c >= '0' && c <= '9') )
+    return true;
+  else
+    return false;
+}
+
+bool delimitSigns(const char c) {
+  if (c == ',' || c == '.' || c == '-')
     return true;
   else
     return false;
@@ -28,6 +49,9 @@ bool alphabetic(const char c) {
 
 int countWords(const char string[]) {
   bool    lookingForWord = true, alphabetic(const char c);
+  bool    lookingForApos = false, apostrophe(const char c);
+  bool    lookingForNumber = true, number(const char c);
+  bool    lookingForSigns = false, delimitSigns(const char c);
   int     i, wordCount = 0;
 
   for (i = 0; string[i] != '\0'; i++)
@@ -37,10 +61,29 @@ int countWords(const char string[]) {
       {
         ++wordCount;
         lookingForWord = false;
+        lookingForApos = true;
       }
     }
-    else
+    else if ( apostrophe(string[i]) )
+    {
+      if (lookingForApos)
+        lookingForApos = false;
+    }
+    else if ( number(string[i]) || (lookingForSigns && delimitSigns(string[i])) )
+    {
+      if (lookingForNumber)
+      {
+        ++wordCount;
+        lookingForNumber = false;
+        lookingForSigns = true;
+      }
+    }
+    else {
       lookingForWord = true;
+      lookingForNumber = true;
+      lookingForSigns = false;
+      lookingForApos = false;
+    }
 
   return wordCount;
 }
