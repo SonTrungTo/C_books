@@ -8,8 +8,8 @@
 int findString(const char source[], const char search[]) {
   int i = 0, j = 0;
 
-  // Stop before the element null.
-  while (search[0] != source[j] && source[j + 1])
+  // Stop before the element null, find until the first search and source is not null.
+  while (search[0] != source[j] && source[0] && source[j + 1])
     ++j;
 
   do {
