@@ -43,12 +43,13 @@ void insertString(char source[], char str[], int position) {
   void concat(char result[], char str1[], char str2[]);
   void substring(char source[], int index, int count, char result[]);
   int  i;
-  char result[50], result2[50];
+  char result[50], result2[50], result3[50];
 
   substring(source,0,position,result);
   substring(source,position,81,result2);
-  concat(result,result,str);
-  concat(source,result,result2);
+  concat(result3,str,result2);
+  concat(source,result,result3); /* This is not good because we are making stack smashing!
+                        Probably because the C's memory cannot take much.              */
 }
 
 int main(void) {
