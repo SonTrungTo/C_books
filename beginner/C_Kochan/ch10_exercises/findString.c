@@ -8,15 +8,14 @@
 int findString(const char source[], const char search[]) {
   int i = 0, j = 0;
 
-  // This does not prevent search[0] == '\0' and source[j] is non-null,
-  // then the final j will make source[j] == '\0'.
-  while (search[0] != source[j] && source[j]) // This loop would not stop for non-match case if not for source[j]!
+  while (search[0] != source[j] && source[j + 1] && source[0])
     ++j;
 
   do {
     if (search[i] != source[j + i])
       return -1;
-    ++i;
+    if ( search[i] )
+      ++i;
   } while(search[i] != '\0');
 
   return j;
