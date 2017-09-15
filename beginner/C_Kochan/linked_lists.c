@@ -27,8 +27,8 @@ int main(void) {
   return 0;
 }
 
-/* P/S: I think the figures 11.4, 11.5 ... are all wrong: the arrow should
-* have pointed to the structures of entry(n1,n2,n3), NOT their value member.
+/* P/S: I think the figures 11.4, 11.5, 11.6, 11.7 are all wrong: the arrow should
+* have pointed to the structures of entry(n1,n2,n3,...), NOT their value member.
 *
 * line 5 from page 248 should be, "... Program 11.6 displays the value member of the entry
 * structure that is..."
