@@ -3,7 +3,7 @@
 // This handles the program more intelligently, succinctly and efficiently.
 #include <stdio.h>
 
-int arraySum(int array[], int n) {
+int arraySum(int *array, int n) {
   int         sum = 0, *ptr;         // *ptr is for optimization purpose.
   int * const endArray = array + n; // This is for optimization
 
@@ -14,7 +14,7 @@ int arraySum(int array[], int n) {
 }
 
 int main(void) {
-  int     arraySum(int array[], int n);
+  int     arraySum(int *array, int n);
   int     array[10] = {3,7,-9,3,6,-1,7,9,1,-5};
 
   printf("The sum is %i.\n", arraySum(array,10));
