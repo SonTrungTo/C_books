@@ -4,11 +4,11 @@
 #include <stdio.h>
 
 int arraySum(int *array, int n) {
-  int         sum = 0, *ptr;         // *ptr is for optimization purpose.
+  int         sum = 0;         // *ptr is for optimization purpose.
   int * const endArray = array + n; // This is for optimization
 
-  for (ptr = array; ptr < endArray; ptr++)
-    sum += *ptr;
+  for (; array < endArray; array++)
+    sum += *array;
 
   return sum;
 }
