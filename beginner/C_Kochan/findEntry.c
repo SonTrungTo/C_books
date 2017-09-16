@@ -46,3 +46,7 @@ int main(void) {
 
   return 0;
 }
+
+// This can be used to replace the lookup function and search in dictionary
+// by using linked lists: easy inserting and removing new entries, but the binary
+// search algorithm is inapplicable.
