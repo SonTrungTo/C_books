@@ -1,8 +1,8 @@
 // Exercise 4: rotate combined with int_size to remove assumption of 32 bits.
 #include <stdio.h>
 
-unsigned int int_size(unsigned int value) {
-  unsigned int count = 0, bits1;
+unsigned int int_size(void) {
+  unsigned int count = 0, bits1, value = 0xffu;
 
   bits1 = value | ~(0);
 
@@ -16,10 +16,10 @@ unsigned int int_size(unsigned int value) {
 
 // Modified rotate function.
 unsigned int rotate(unsigned int x, int n) {
-  unsigned int int_size(unsigned int value);
+  unsigned int int_size(void);
   unsigned int bits, result, bitSystem;
 
-  bitSystem = int_size(x);
+  bitSystem = int_size();
 
   if (n > 0)
     n %= bitSystem;
