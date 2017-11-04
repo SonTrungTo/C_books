@@ -33,7 +33,7 @@ unsigned int bit_test(unsigned int value, int n_bit) {
 // bitpat_search returns the starting index of the pattern; -1 otherwise.
 int bitpat_search(unsigned int source, unsigned int pattern, int n) {
   unsigned int int_size(void), bit_test(unsigned int value, int n_bit);
-  int          count_source = 0, count_pattern = 0, index;
+  int          count_source = 0, count_pattern = 0, lengthOfPattern, i = 0, j = 0;
 
   if (n <= 0 || n > int_size()) {
     printf("Invalid bits number of pattern.\n");
@@ -46,9 +46,27 @@ int bitpat_search(unsigned int source, unsigned int pattern, int n) {
   while (bit_test(pattern,count_pattern) == 0)
     ++count_pattern;
 
-  for (count_pattern; count_pattern < n; i++) {
-    /* code */
+  lengthOfPattern = count_pattern + n;
+
+  for (count_pattern + i,count_source + i; count_pattern + i < lengthOfPattern; i++) {
+    if (bit_test(source,count_source + i) != bit_test(pattern,count_pattern + i)) {
+      ++count_source;
+      ++j;
+      i = 0;
+      continue;
+    }
   }
+
+  return j;
+}
+
+// Testing
+int main(void) {
+  int          bitpat_search(unsigned int source, unsigned int pattern, int n);
+  unsigned int w1 = 0xe1f4u, w2 = 0x5u;
+  int          index = bitpat_search(w1,w2,3);
+
+  printf("%i\n", index);
 
   return 0;
 }
