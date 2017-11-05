@@ -48,13 +48,14 @@ int bitpat_search(unsigned int source, unsigned int pattern, int n) {
 
   lengthOfPattern = count_pattern + n;
 
-  for (count_pattern + i,count_source + i; count_pattern + i < lengthOfPattern; i++) {
+  for (count_pattern + i,count_source + i; count_pattern + i < lengthOfPattern; ) {
     if (bit_test(source,count_source + i) != bit_test(pattern,count_pattern + i)) {
       ++count_source;
       ++j;
       i = 0;
       continue;
     }
+    ++i;
   }
 
   return j;
