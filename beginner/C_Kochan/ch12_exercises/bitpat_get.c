@@ -33,7 +33,7 @@ unsigned int bit_test(unsigned int value, int n_bit) {
 // bitpat_get
 unsigned int bitpat_get(unsigned int source, int start, int bit_count) {
   unsigned int int_size(void), bit_test(unsigned int value, int n_bit);
-  unsigned int value = 0;
+  unsigned int value = 0, upperBitLimit = start + bit_count;
 
   if (bit_count <= 0 || bit_count > (int_size() - start)) {
     printf("Invalid number of bits extracted!\n");
@@ -45,10 +45,9 @@ unsigned int bitpat_get(unsigned int source, int start, int bit_count) {
     return 0;
   }
 
-  for (int i = start; i < bit_count; i++) {
+  for (int i = start; i < upperBitLimit; i++) {
     value <<= 1;
     value = value | bit_test(source,i);
-    printf("%u\n", bit_test(source,i));
   }
 
   return value;
@@ -60,6 +59,9 @@ int main(void) {
   unsigned int x = 0xE28FF15Bu, y = 6;
 
   printf("%u\n", bitpat_get(y,29,3));
+  printf("%u\n", bitpat_get(x,2,7));
+  printf("%u\n", bitpat_get(x,12,8));
+  printf("%u\n", bitpat_get(x,12,9));
 
   return 0;
 }
