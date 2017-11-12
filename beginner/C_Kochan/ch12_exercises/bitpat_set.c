@@ -31,28 +31,41 @@ unsigned int bit_test(unsigned int value, int n_bit) {
 
 // Print the bits
 void printBits(unsigned int value) {
-  
+  unsigned int int_size(void), bit_test(unsigned int value, int n_bit);
+
+  for (int i = 0, upperBound = int_size(); i < upperBound; i++) {
+    if (i % 5 == 4)
+      printf(" ");
+    printf("%u", bit_test(value,i));
+  }
+
+  printf("\n");
 }
 
+// Eliminate 0s on the left hand side of the bits
+unsigned int countBits(unsigned int value) {
+  unsigned int count = 0;
+
+  while ((value >> count) > 0)
+    ++count;
+
+  return count;
+}
 
 // bitpat_set
-unsigned int bitpat_set(unsigned int *source, unsigned int value, int start, int size) {
-  unsigned int int_size(void), finalValue;
-  int          upperLimit = start + size;
+void bitpat_set(unsigned int *source, unsigned int value, int start, int size) {
+  unsigned int int_size(void), countBits(unsigned int value);
+  void         printBits(unsigned int value);
+  unsigned int startingBit = countBits(*source);
 
   if (size <= 0 || size > (int_size() - start)) {
     printf("Invalid size of bit field.\n");
-    return 0;
   }
 
   if (start < 0 || start > int_size() - 1) {
     printf("Invalid starting index to set bit.\n");
-    return 0;
   }
 
-  finalValue = *source | (0 | value << int_size() - size) >> start;
-
-  return finalValue;
 }
 
 //Testing
@@ -62,7 +75,6 @@ int main(void) {
   unsigned int x = 0x55u;
 
   printf("%u\n", bitpat_set(&x,0x55u,0,8));
-  printf("%u\n", bitpat_set(&x,0x55u,int_size() - 8,7)); // This is not good!
 
   return 0;
 }
