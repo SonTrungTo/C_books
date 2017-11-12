@@ -34,7 +34,7 @@ void printBits(unsigned int value) {
   unsigned int int_size(void), bit_test(unsigned int value, int n_bit);
 
   for (int i = 0, upperBound = int_size(); i < upperBound; i++) {
-    if (i % 5 == 4)
+    if (i % 8 == 0)
       printf(" ");
     printf("%u", bit_test(value,i));
   }
@@ -42,7 +42,7 @@ void printBits(unsigned int value) {
   printf("\n");
 }
 
-// Eliminate 0s on the left hand side of the bits
+// Total non-zero bits.
 unsigned int countBits(unsigned int value) {
   unsigned int count = 0;
 
@@ -56,25 +56,43 @@ unsigned int countBits(unsigned int value) {
 void bitpat_set(unsigned int *source, unsigned int value, int start, int size) {
   unsigned int int_size(void), countBits(unsigned int value);
   void         printBits(unsigned int value);
-  unsigned int startingBit = countBits(*source);
+  unsigned int totalBits = countBits(*source), mask;
+  unsigned int rightShiftWidth = (int_size() - size);
 
-  if (size <= 0 || size > (int_size() - start)) {
+  printf("Original source: ");
+  printBits(*source);
+
+  // Defensive programming!
+  if (size <= 0 || size > totalBits - start) {
     printf("Invalid size of bit field.\n");
   }
 
-  if (start < 0 || start > int_size() - 1) {
+  if (start < 0 || start > totalBits) {
     printf("Invalid starting index to set bit.\n");
   }
 
+  mask  = ((~0u) >> rightShiftWidth) << (totalBits - size - start);
+  value <<= (totalBits - size - start);
+
+  *source = (*source & ~mask) | value;
+
+  // printf("mask:  \t\t ");
+  // printBits(~mask);
+
+  printf("Value: \t\t ");
+  printBits(value);
+
+  printf("New source: \t ");
+  printBits(*source);
 }
 
 //Testing
 int main(void) {
   unsigned int int_size(void);
-  unsigned int bitpat_set(unsigned int *source, unsigned int value, int start, int size);
-  unsigned int x = 0x55u;
+  void bitpat_set(unsigned int *source, unsigned int value, int start, int size);
+  unsigned int x = 0x3fafu;
 
-  printf("%u\n", bitpat_set(&x,0x55u,0,8));
+  bitpat_set(&x,0x55u,1,13);
 
   return 0;
 }
