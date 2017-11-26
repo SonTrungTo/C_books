@@ -1,4 +1,0 @@
-/home/tos1/Documents/repos/C_books/beginner/C_Kochan/includeExample.c:4:20: fatal error: metric.h: No such file or directory
- #include "metric.h"
-                    ^
-compilation terminated.
