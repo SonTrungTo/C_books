@@ -1,4 +1,5 @@
 // Exercise 3: Define MIN preprocessor, working for any two values (bit manipulation not included here!)
+// NOTE: An improved solution is in the next exercise, MAX3.c
 #include <stdio.h>
 #define printName(name) printf(#name " = %g\n", name)
 #define MIN(x,y) ( ((float) x) < ((float) y) ? ((float) x) : ((float) y) )
