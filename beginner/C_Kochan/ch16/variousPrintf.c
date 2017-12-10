@@ -25,5 +25,14 @@ int main(void) {
   printf("%ld %lo %lx %lu\n", l,l,l,l);
   printf("%lli %llo %llx %llu\n", L,L,L,L);
 
+  printf("\nFloats and Doubles:\n");
+  printf("%f  %e  %g\n", f,f,f);
+  printf("%.2f  %.2e\n", f,f);  // Deviation is small.
+  printf("%.0f  %.0e\n", f,f);  // Deviation is great between these two.
+  printf("%7.2f  %7.2e\n", f,f); // Maximum size of field is 7 columns, of which two are significant digits.
+  printf("%f  %e  %g\n", d,d,d);
+  printf("%.*f\n", 3,d);        // three significant digits precision == %.3f
+  printf("%*.*f\n", 8,2,d);     // == %8.2f
+
   return 0;
 }
