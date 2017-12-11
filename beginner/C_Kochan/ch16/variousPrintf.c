@@ -34,5 +34,23 @@ int main(void) {
   printf("%.*f\n", 3,d);        // three significant digits precision == %.3f
   printf("%*.*f\n", 8,2,d);     // == %8.2f
 
+  printf("\nCharacters:\n");
+  printf("%c\n", c);
+  printf("%3c%3c\n", c,c);
+  printf("%x\n", c);
+
+  printf("\nStrings:\n");
+  printf("%s\n", s);
+  printf("%.5s\n", s);
+  printf("%30s\n", s);
+  printf("%20.5s\n", s);  // Maximum character is 5 characters, and minimum size of field is 20
+  printf("%-20.5s\n", s);
+
+  printf("\nPointers:\n");
+  printf("%p   %p\n\n", ip,cp);
+
+  printf("This%n is fun.%n\n", &c1,&c2);
+  printf("c1 = %i; c2 = %i\n", c1,c2);
+
   return 0;
 }
