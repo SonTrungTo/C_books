@@ -21,7 +21,7 @@ int main(void) {
   printf("%x  %X  %#x %#X\n", i,i,i,i);
   printf("%+i % i %07i %.7i\n", i,i,i,i);
   printf("%i  %o  %x  %u\n", j,j,j,j);
-  printf("%i  %o  %x  %u\n", u,u,u,u);
+  printf("%i  %o  %x  %u\n", u,u,u,u); // No negative number when use %i
   printf("%ld %lo %lx %lu\n", l,l,l,l);
   printf("%lli %llo %llx %llu\n", L,L,L,L);
 
