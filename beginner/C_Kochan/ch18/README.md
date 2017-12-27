@@ -6,3 +6,4 @@ this is to change the way preprocessor is used.
 a further improvement would be to include the level of the debugger
 so that appropriate outputs are produced.
 * p18-3-2.c: Codes do not work as expected; levels are being ignored!
+* p18-4.c: Segmentation fault (core dumped) for using gdb
