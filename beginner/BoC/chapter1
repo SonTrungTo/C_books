@@ -1,0 +1,200 @@
+Chapter 1
+An Overview of C
+This chapter gives an overview of the C programming language. A series of programs is
+presented, and the elements of each program are carefully explained. Experimentation
+and interaction are emphasized throughout the text. In this chapter, we emphasize how
+to use the basic input/output functions of C. Note carefully that all our C code also
+serves as C++ code and that all the ideas we discuss hold for C++ as well as for C. Of
+course, the C++ programmer has available a richer set of tools and techniques out of
+which programs can be constructed. (See Chapter 13, "Moving from C to CH.")
+Except for Section 1.8, "Arrays, Strings, and Pointers," on page 36, everyone should
+read all the material in this chapter. Any reader who has had experience with arrays,
+pointers, and files in some other language can read all the sections of this chapter to
+get a more complete overview of C. Others can come back to the material when they
+feel they are ready. Everyone should read this chapter with the understanding that technical
+details and further explanations will come in later chapters.
+1.1 Programming and Preparation
+Resident on the machine is a collection of special programs called the operating system.
+Commonly available operating systems include MS-DOS, OS/2, and UNIX. An operating
+system manages machine resources, provides software for the user, and acts as an
+interface between the user and the hardware. Among the many software packages provided
+by the operating system are the C compiler and various text editors. The principal
+text editor on the UNIX system is called vi. Some systems, such as Borland C++, integrate
+the text editor and the compiler. We assume that the reader is able to use some
+text editor to create files containing C code. Such files are called source files, and they
+6 Chapter 1 T An Overview of C
+are compiled on most UNIX systems with the cc command, which invokes the C compiler.
+Because the cc command invokes the compiler, the name of the command is also
+the name of the compiler. Thus, C compiler and cc compiler are used interchangeably.
+Roughly speaking, a compiler translates source code to object code that is executable.
+On UND( systems, this compiled code is automatically created in a file named a.out. On
+MS-DOS systems, this compiled code is automatically created in a file with the same
+na~e as the .c file, but with the .exe extension replacing the .c extension. At the end of
+thIS cha.pter, i~ Section 1.10, "Operating System Considerations," on page 53, we
+present m detaIl the steps necessary to edit, compile, and execute a program.
+1.2 Program Output
+Programs must communicate to be useful. Our first example is a program that prints
+on the screen the phrase "from sea to shining c." The complete program is
+In file sea.c
+#include <stdio.h>
+i nt mai n(voi d)
+{
+}
+printf("from sea to shining C\n"); return 0;
+Using a text editor, we type this into a file whose name ends in .c. The chOice of a file
+name should be mnemonic. Let us suppose the program has been written in the file
+sea.c. To compile the program, we give the command
+cc sea.c
+If there are no errors in the code, the executable file a.out is created by this command.
+Now the command
+a.out
+executes the program and prints on the screen
+from sea to shining C
+1.2 T Program Output 7
+• Dissection of the sea Program
+• #include <stdio.h>
+A preprocessor is built into the C compiler. When the command to compile a program
+is given, the code is first preprocessed and then compiled. Lines that begin with a #
+communicate with the preprocessor. This #i ncl ude line causes the preprocessor to
+include a copy of the header file stdio.h at this point in the code. This header file is provided
+by the C system. The angle brackets around <stdi o. h> indicate that the file is to
+be found in the usual place, which is system-dependent. We have included this file
+because it contains information about the pri ntfO function.
+• int main(void)
+This is the first line of the function definition for mai nO. (We write parentheses after
+the name ma into remind the reader that main 0 is a function.) The two words i nt and
+vo; d are keywords, also called reserved words. They have special meaning to the compiler.
+In Section 2.4, "Keywords," on page 77, we will see that there are 32 keywords in
+C, including i nt and vo; d.
+• int main(void)
+{
+Every program has a function named main O. Program execution always starts with this
+function. The top line should be read as "main 0 is a function that takes no arguments
+and returns an i nt value." Here, the keyword i nt tells the compiler that this function
+returns a value of type i nt. The word i nt stands for integer, but the word integer itself
+cannot be used. The parentheses following ma; n indicate to the compiler that mai n is a
+function. This idea is confusing at first because what you see following main is (vo; d) ,
+but only the parentheses 0 constitute an operator telling the compiler that ma; n is a
+function. The keyword voi d indicates to the compiler that this function takes no arguments.
+When we write about functions such as main 0 and p ri ntf 0, we usually follow
+the name in print with parentheses. This indicates to the reader that we are discussing
+a function. (Many programming books follow this practice.)
+.. {
+Braces surround the body ofet function definition. They are also used to group statements
+together.
+8 Chapter 1 'f An Overview of C
+III pri ntfO
+The C system contains a standard library of functions that can be used in programs.
+This is a function from the library that prints on the screen. We included the header file
+sldio.h because it provides certain information to the compiler about the function
+printfO. (See exercise 14, on page 63.)
+III "from sea to shining (\n"
+A string constant in C is a series of characters surrounded by double quotes. This string
+is an argument to the function pri ntfO, and it controls what gets printed. The two
+characters \n at the end of the string (read backs lash n) represent a single character
+called newline. It is a nonprinting character. It advances the cursor on the screen to the
+beginning of the next line.
+III printf("from sea to shining (\n")
+This is a call to the pri ntfO function. In a program, the name of a function followed
+by parentheses causes the function to be called, or invoked. If appropriate, the parentheses
+may contain arguments. Here, when the pri ntfO function is invoked, it prints
+its argument, a string constant, on the screen.
+III printf("from sea to shining (\n");
+This is a statement. Many statements in C end vvith a semicolon.
+III return 0;
+This is a retu rn statement. It causes the value zero to be returned to the operating system,
+which in turn may use the value in some way, but is not required to do so. (See Section
+12.7, "Returning the Status," on page 579, for further discussion.) Our use of this
+return statement keeps the compiler happy. If we do not use it, the compiler will complain.
+(See exercise 4, on page 60.) One of the principal rnles of programming is "keep
+your compiler happy."
+III }
+The right brace matches the left brace above, ending the function definition for main O .
+•
+1.2 v Program Output 9
+The function pri ntfO acts to print continuously across the screen. It moves the
+cursor to the start of a new line when a newline character is read. The screen is a
+two-dimensional display that prints from left to right and top to bottom. To be readable,
+output must appear properly spaced on the screen.
+We can rewrite our first program as follows:
+#include <stdio.h>
+i nt ma; n(voi d)
+{
+printf("from sea to ");
+printf("shining C");
+printfCII\n");
+return 0;
+}
+Although it is different from the first version, it will produce the same o~tput. Each
+time pri ntfO is called, printing begins at the position w~ere the preVIOUS call, to
+pri ntfO left off. If we want to print our phrase on three hnes, we can use newlme
+characters.
+#include <stdio.h>
+int mainCvoid)
+{ pri ntf(,'from sea\n");
+printf("to shining\n(\n");
+return 0;
+}
+When executed, this program will print
+from sea
+to shining
+(
+10 Chapter 1" An Overview of C
+Let us write one additional variation on this program, one that will box the phrase in a
+rectangle of asterisks. It will show how each character, including blanks and newline
+characters, is Significant, and when it is executed, it will give some sense of the screen proportions.
+In file sea2.c
+1.3
+#include <stdio.h>
+int main(void) {
+}
+printf("\n\n\n\n\n\n\n\n\n\n");
+p r i n t f ( II ,~ * 'i<'1"h~ 'i"hh~ 'I, i, '{doh"", * ,', j, '/d, * \ nil) ;
+pri ntf(" ,~ from sea i'\n") ;
+pri ntf(" i, to shi ni ng C >"\n") ;
+p ri ntf (" "'***'~id'*i"hhh~"''''*i''~*1d''~j(\n'') ; printf("\n\n\n\n\n\n\n\n\n\n");
+return 0;
+Variables, ExpreSSions, and Assignment
+We will write a program to convert the distance of a marathon in miles and yards to
+kilometers. In English units, a marathon is defined to be 26 miles and 385 yards. These
+numbers are integers. To convert miles to kilometers, we multiply by the conversion
+factor 1.609, a real number. In memory, computers represent integers differently from
+reals. To convert yards to miles, we divide by 1760.0, and, as we shall see, it is essential
+to represent this number as a real rather than as an integer.
+Our conversion program will use variables capable of storing integer values and real
+values, In C, aU variables must be declared, or named, at the beginning of the program.
+A variable name, also called an identifier, consists of a sequence of letters, digits, and
+underscores, but may not start with a digit. Identifiers should be chosen to reflect their
+use in the program. In this way, they serve as documentation, making the program more readable.
+1.3 " Variables, Expressions, and Assignment
+In file marathon.c
+Ii' The di stance Of a marathon in kilometers. *1
+#include <stdio.h>
+int main(void)
+{
+}
+i nt
+float
+miles, yards;
+kilometers;
+miles 26;
+yards 385; , kilometers = 1.609 R
+printf("\nA marathon
+return 0;
+(miles + yards I 1760.0);
+is %f kilometers.\n\n", kilometers);
+The output of the program is.
+A marathon is 42.185970 kilometers.
+• Dissection of the marathon Program
+,~ I • 1* The distance of a marathon in kilometers.
+11
+Ii' nd it I is a comment and is ignored by the Anyt~ing written betwe~nt~e ~~:~~~: star~ vvith a comment are listed in the index. compller. All programs m s ,
+• int miles, yards;
+. d ts end with a semicolon. ; nt is a key- This is a declaration. DeclaratIOns ~n ::a~~r:~~ language. It informs the compiler that
+word and is one of t~e f~ndamefnta ty?nt and are to take on integer values. Thus, the the variables followmg It are 0 type 1 .'
+variables mi 1 es and yards in this program are of type 1 nt.
+• float kilometers;
+. . k word and is one of the fundamental types of the
+This is a de~la:atIOn~:~ ~~~~~l:r ~at the variables following it are of type f.loat and
+language. It m arms I Th the variable ki 1 ometers in this program IS of type are to take on real va ues. us,
+float.
