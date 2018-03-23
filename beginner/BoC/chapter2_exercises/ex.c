@@ -26,4 +26,5 @@
     HOWEVER, with the exception of *, the rest will be compile-time error since
     left-hand side needs lvalue (needs to be assigned to a const.)
     Exercise 16: Results: 4, 7, -7, 7. Error == run-time error.
+    Exercise 17: a == 13, b == 12, c == 10
 */
