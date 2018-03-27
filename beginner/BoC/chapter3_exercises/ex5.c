@@ -10,3 +10,10 @@ int main(void) {
   }
   return 0;
 }
+/*
+* If we have 2^n in decimal, then hexadecimal = H(n mod 4) * 10^{[n / 4]}
+*                                 octal       = O(n mod 3) * 10^{[n / 3]}
+*                                 H(n mod 4) ::= 1|2|4|8
+*                                 O(n mod 3) ::= 1|2|4
+*                                 [n / k]    ::= integer division of n and k
+*/
