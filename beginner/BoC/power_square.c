@@ -15,12 +15,18 @@ int main(void) {
     printf("Input x:  ");
     if (scanf("%lf", &x) != 1)
       break;
-    if (x >= 0.0) /* Test 0 to see if error */ {
-      printf("\n%15s%22.15e");
+    if (x >= 0.0) {
+      printf("\n%15s%22.15e\n%15s%22.15e\n%15s%22.15e\n\n",
+          "x = ", x,
+          "sqrt(x) = ", sqrt(x),
+          "pow(x, x) = ", pow(x, x));
     } else {
-      /* code */
+      printf("\nSorry, your number must be nonnegative.\n");
+      break;
     }
   }
+
+  printf("\nBye!\n\n");
 
   return 0;
 }
