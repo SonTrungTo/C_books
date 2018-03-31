@@ -1,0 +1,3 @@
+/* The majority function theorem:
+*  
+*/
