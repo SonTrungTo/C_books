@@ -17,7 +17,6 @@ void mergesort(int key[], int n) {
   */
   w = calloc(n, sizeof(int));
   assert(w != NULL);
-  while ()
   for (k = 1; k < n; k *= 2) {
     for (j = 0; j < n; j += 2*k) /* It does not need to be n - k, unless sup is needed! */
       merge(key + j, key + j + k, w + j, k, k);
