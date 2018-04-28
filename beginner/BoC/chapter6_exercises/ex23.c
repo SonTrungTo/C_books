@@ -13,10 +13,10 @@ void wrt(cchar *s, int a[]);
 int main(void) {
   int   a[N] = {7, 5, 9, 8, 9, 7, 5, 0, 0, 9, 9, 0, 8, 8};
   int   b[N] = {7, 7, 5, 3, 1, 2, 8, 8, 9, 6, 7, 7};
-  int   c[N] = {2, 1};
-  int   d[N] = {2, 1};
+  int   c[N] = {4, 3, 2, 1};
+  int   d[N] = {1, 3, 2, 5, 1};
   int   sum[N];
-  int   product[N];
+  int   product[2 * N];
   int   ndigits;
 
   add(sum, a, b);
@@ -47,21 +47,25 @@ void add(int sum[], int a[], int b[]) {
 }
 
 void multiply(int product[], int a[], int b[]) {
+  int     sum[2 * N] = {0};
   int     carry = 0;
-  int     i, j, k;
+  int     i, j;
 
   for (i = 0; i < N; i++) {
-    for (j = 0; j < N; j++) {
-      product[j] = b[i] * a[j] + carry;
-      if (product[j] < 10)
+    for (j = 0; j < i; j++)                   /* Add zeroes to each new line of product */
+      product[j] = 0;
+    for (j = 0; j < N; j++) {                /* Basic multiplication algorithm */
+      product[j + i] = b[i] * a[j] + carry;
+      if (product[j + i] < 10)
         carry = 0;
       else {
-        carry = product[j] / 10;
-        product[j] %= 10;
+        carry = product[j + i] / 10;
+        product[j + i] %= 10;
       }
-      for (k = 0; k < i; k++)
-        product[k] = 0;
     }
+    add(product, sum, product);
+    for (j = 0; j < 2 * N; j++)
+      sum[j] = product[j];
   }
 }
 
