@@ -1,0 +1,6 @@
+The ancient Egyptians wrote in hieroglyphics. In this system of writing, vowel
+sounds are not represented, only consonants. Is written English generally understandable
+without vowels? To experiment, write a function is_vowel() that returns 1 if a
+letter is a vowel and 0 otherwise. Use your function in a program that reads
+the standard input file and writes to the standard output file ,deleting all
+vowels. Use redirection on a file containing some English text to test your program.

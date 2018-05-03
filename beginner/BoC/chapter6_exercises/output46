@@ -1,0 +1,6 @@
+Th ncnt Egyptns wrt n hrglyphcs. In ths systm f wrtng, vwl
+snds r nt rprsntd, nly cnsnnts. Is wrttn Englsh gnrlly ndrstndbl
+wtht vwls? T xprmnt, wrt  fnctn s_vwl() tht rtrns 1 f 
+lttr s  vwl nd 0 thrws. Us yr fnctn n  prgrm tht rds
+th stndrd npt fl nd wrts t th stndrd tpt fl ,dltng ll
+vwls. Us rdrctn n  fl cntnng sm Englsh txt t tst yr prgrm.
