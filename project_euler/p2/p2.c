@@ -12,7 +12,28 @@
 #define     LIMIT     4 * pow(10,6)
 
 int main(void) {
-  long
+  int    f0 = 1, f1 = 2, i, sum = 0, temp;
+
+  printf("%7s%19s%29s\n"
+         "%7s%19s%29s\n"
+         "%7s%19s%29s\n",
+       " ", "Fibbonacci", "Even cumulative",
+       "Term", "number", "total sum",
+       "----", "----------", "--------------");
+  printf("%7d%19d%29d\n"
+         "%7d%19d%29d\n",
+       1, f0, 0,
+       2, f1, sum += f1);
+
+  for (i = 3; f1 <= LIMIT; i++) {
+    temp = f1;
+    f1 += f0;
+    f0 = temp;
+    if (f1 % 2 == 0) {
+      sum += f1;
+      printf("%7d%19d%29d\n", i, f1, sum);
+    }
+  }
 
   return 0;
 }
