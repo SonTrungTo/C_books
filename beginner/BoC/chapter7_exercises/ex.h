@@ -34,7 +34,7 @@ void bit_print_16(short n) {
   putchar('\n');
 }
 
-void bit_print_ul(unsigned long n) {
+void bit_print_ul(unsigned long n) { // ul == 64 bits
   int   size = sizeof(unsigned long) * CHAR_BIT;
   int   mask = 1 << (size - 1);
   int   i;
