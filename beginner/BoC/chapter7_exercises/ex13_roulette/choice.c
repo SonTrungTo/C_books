@@ -7,7 +7,7 @@ int roulette_choice(void) {
 int player_choice(void) {
   int   player_selection;
 
-  printf("Input 0-35, 'o', 'e', or 'q':    ");
+  printf("Input 0-35, 'o'(111), 'e'(101),'q'(113) or 'g'(103):    ");
   scanf("%i", &player_selection);
 
   return player_selection;
