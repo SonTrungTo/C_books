@@ -13,3 +13,7 @@ Top-notch C books.
   frustrating: most of them are either too easy or only verified-purposes; the rest
   are impossible to solve. Reading this book has made me appreciated Kochan's book much
   more. I will stop wasting time with this book!
+
+## Professional
+* [The C Programming Language](https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628) - Brian Kernighan, Dennis Ritchie. (status: ongoing)
+  * The granddaddy of all C books.
