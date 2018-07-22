@@ -1,32 +1,62 @@
 #include <stdio.h>
 
-#define       OUT			0
-#define				IN			1
-#define				N				64
+#define       OUT									0
+#define				IN									1
+#define				MAX_LENGTH					64
 
 int main(void) {
-	int		 c, wl[N], wn, status, i;
+	int		 c, state, i, length;
+	int		 max_words;					/* max length of all words, used for scaling */
+	int		 wl[MAX_LENGTH];		/* word length counter */
+	int		 wc;								/* the length of a word */
+	int		 gc;								/* group counter */
+	int		 overflow;					/* overflow counter */
 
-	for (i = 0; i < N; i++)
+	for (i = 0; i < MAX_LENGTH; i++)
 		wl[i] = 0;
 
-	status = OUT;
-	wn = -1;
+	max_words = 0;
+	overflow = 0;
+	gc = 0;
+	wc = 0;
+	state = OUT;
 	while ( (c = getchar()) != EOF ) {
-		if (c == ' ' || c == '\t' || c == '\n')
-			status = OUT;
-		else {
-			if (status == OUT) {
-				++wn;
-				status = IN;
-			}
-			++wl[wn];
+		if (c == ' ' || c == '\t' || c == '\n') {
+			state = OUT;
+			if (wc > MAX_LENGTH)
+				++overflow;
+			else if (wc > 0)
+				++wl[wc];
+			wc = 0;
+		}
+		else if (state == OUT ) {
+			state = IN;
+			wc = 1;
+		}
+		else
+			++wc;
+	}
+
+	for (i = 1; i < MAX_LENGTH; i++) {
+		if (max_words < wl[i])
+			max_words = wl[i];
+		if (wl[i] != 0)
+			++gc;
+	}
+
+	for (i = 1; i < MAX_LENGTH; i++) {
+		if (wl[i] != 0) {
+			printf("%5d -- %5d  ", i, wl[i]);
+			if ( (length = wl[i] * max_words / gc) < 1 )
+				length = 1;
+			while (length-- > 0)
+				printf("*");
+			putchar('\n');
 		}
 	}
 
-	for (i = 0; i < wn + 1; i++) {
-		printf("wl[%i]: %d\n", i, wl[i]);
-	}
+	if (overflow > 0)
+		printf("There are %d overflown words that are greater than %d\n", overflow, MAX_LENGTH );
 
 	return 0;
 }
