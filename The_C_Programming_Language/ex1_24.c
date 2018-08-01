@@ -15,22 +15,29 @@ int main(void) {
   nparen = 0;
   nbrack = 0;
   nbrace = 0;
-  while ((c = getchar()) != EOF)
+  while ((c = getchar()) != EOF) {
     check(c);
 
-    if (nbrace > 0)
+    if (nbrace > 0) {
       printf("ERROR: Missing left braces.\n");
-    else if (nbrace < 0)
-      printf("ERROR: Missing right braces.\n");
-
-    if (nbrack > 0)
+      nbrace = 0;
+    }
+    if (nbrack > 0) {
       printf("ERROR: Missing left brackets.\n");
-    else if (nbrack < 0)
-      printf("ERROR: Missing right brackets.\n");
-    
-    if (nparen > 0)
+      nbrack = 0;
+    }
+    if (nparen > 0) {
       printf("ERROR: Missing left parentheses.\n");
-    else if (nparen < 0)
+      nparen = 0;
+    }
+  }
+
+
+    if (nbrace < 0)
+      printf("ERROR: Missing right braces.\n");
+    if (nbrack < 0)
+      printf("ERROR: Missing right brackets.\n");
+    if (nparen < 0)
       printf("ERROR: Missing right parentheses.\n");
 
   return 0;
