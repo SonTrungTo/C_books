@@ -2,14 +2,24 @@
 
 /* setbits: set n bits of x that begins at p to the rightmost n bits of y */
 unsigned setbits(unsigned x, int p, int n, unsigned y);
+unsigned setbits2(unsigned x, int p, int n, unsigned y);
 
 int main(void) {
   unsigned x = 045, y = 013;
+  unsigned a = 051, b = 015;
 
   printf("%u\n", setbits(x, 3, 3, y)); /* Expect: 39 */
+  printf("%u\n", setbits(x, 3, 2, y)); /* Expect: 37 */
+  printf("%u\n", setbits2(x, 3, 3, y));
+  printf("%u\n", setbits2(x, 3, 2, y));
   return 0;
 }
 
+/* I do not know where I got wrong! */
 unsigned setbits(unsigned x, int p, int n, unsigned y) {
-  return 0;
+  return ((((x >> (p+1-n)) & (~0 << n)) | (y & ~(~0 << n))) << (p+1-n) | (x & ~(~0 << (p+1-n))));
+}
+
+unsigned setbits2(unsigned x, int p, int n, unsigned y) {
+  return  ;
 }
