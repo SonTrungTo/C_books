@@ -94,11 +94,22 @@ int getop(char s[]) {
   if (!isdigit(c) && c != '.' && c != '+' && c != '-')
     return  c;                                       /* Not a number */
   i = 0;
-  if (c == '-' || c == '+') {
-    if ()
-      ;
+  if (c == '-') {
+    if (isdigit(c = getch()) || c == '.')
+      s[++i] = c;                                    /* Fetch negative number */
     else {
-
+      if (c != EOF)
+        ungetch(c);
+      return  '-';
+    }
+  }
+  if (c == '+') {
+    if (isdigit(c = getch()) || c == '.')
+      s[++i] = c;                                    /* Fetch positive number */
+    else {
+      if (c != EOF)
+        ungetch(c);
+      return  '+';
     }
   }
   if (isdigit(c))
