@@ -9,11 +9,12 @@
 int    getop(char []);
 void   push(double);
 double pop(void);
+void   clear(void);
 
 /* reverse Polish calculator */
 int main(void) {
   int    type;
-  double op2;
+  double op2, temp;
   char   s[MAXOP];
 
   while ((type = getop(s)) != EOF) {
@@ -48,6 +49,25 @@ int main(void) {
       case '\n':
         printf("\t%.8g\n", pop());
         break;
+      case 'p':                       /* print top stack without popping */
+        op2 = pop();
+        printf("\t%.8g\n", op2);
+        push(op2);
+        break;
+      case 'd':                       /* duplicate top stack */
+        op2 = pop();
+        push(op2);
+        push(op2);
+        break;
+      case 's':                       /* swap top two elements */
+        op2  = pop();
+        temp = pop();
+        push(op2);
+        push(temp);
+        break;
+      case 'c':                       /* clear the stack */
+        clear();
+        break;
       default:
         printf("ERROR: Unknown command %s\n", s);
         break;
@@ -77,6 +97,11 @@ double pop(void) {
     printf("ERROR: Stack empty.\n");
     return  0.0;
   }
+}
+
+/* clear: clear the stack val */
+void clear(void) {
+  sp = 0;
 }
 
 #include <ctype.h>
