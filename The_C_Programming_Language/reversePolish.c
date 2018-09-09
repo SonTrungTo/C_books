@@ -1,6 +1,7 @@
 /* reverse Polish calculator, K & R chapter 4 */
 #include <stdio.h>
 #include <stdlib.h>   /* for atof() */
+#include <math.h>     /* for double fmod(double, double) */
 
 #define   MAXOP   100 /* max size of operand or operator */
 #define   NUMBER  '0' /* a signal that a number was found */
@@ -36,6 +37,13 @@ int main(void) {
           printf("ERROR: Division by 0.\n");
         else
           push(pop() / op2);
+        break;
+      case '%':
+        op2 = pop();
+        if (op2 == 0.0)
+          printf("ERROR: Modulus by 0.\n");
+        else
+          push(fmod(pop(), op2));
         break;
       case '\n':
         printf("\t%.8g\n", pop());
@@ -83,9 +91,16 @@ int getop(char s[]) {
   while ((s[0] = c = getch()) == ' ' || c == '\t')    /* Dumbing garbage */
     ;
   s[1] = '\0';
-  if (!isdigit(c) && c != '.')
+  if (!isdigit(c) && c != '.' && c != '+' && c != '-')
     return  c;                                       /* Not a number */
   i = 0;
+  if (c == '-' || c == '+') {
+    if ()
+      ;
+    else {
+
+    }
+  }
   if (isdigit(c))
     while (isdigit(s[++i] = c = getch()))           /* Fetch integer part */
       ;
