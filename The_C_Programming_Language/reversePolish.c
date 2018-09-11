@@ -3,13 +3,15 @@
 #include <stdlib.h>   /* for atof() */
 #include <math.h>     /* for double fmod(double, double) */
 
-#define   MAXOP   100 /* max size of operand or operator */
-#define   NUMBER  '0' /* a signal that a number was found */
+#define   MAXOP     100 /* max size of operand or operator */
+#define   NUMBER    '0' /* a signal that a number was found */
+#define   FUNCTION  '1' /* a signal that a function was found */
 
 int    getop(char []);
 void   push(double);
 double pop(void);
 void   clear(void);
+double f(double);
 
 /* reverse Polish calculator */
 int main(void) {
@@ -21,6 +23,9 @@ int main(void) {
     switch (type) {
       case NUMBER:
         push(atof(s));
+        break;
+      case FUNCTION:
+        push(f(pop()));
         break;
       case '+':
         push(pop() + pop());
