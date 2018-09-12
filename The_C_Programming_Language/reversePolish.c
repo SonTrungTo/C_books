@@ -16,10 +16,13 @@ void   mathfunc(char []);
 
 /* reverse Polish calculator */
 int main(void) {
-  int    type;
-  double op2, temp;
+  int    type, last_character, i;
+  double op2, temp, v;
   char   s[MAXOP];
+  double variable[26];
 
+  for (i = 0; i < 26; i++)
+    variable[i] = 0.0;
   while ((type = getop(s)) != EOF) {
     switch (type) {
       case NUMBER:
@@ -27,6 +30,13 @@ int main(void) {
         break;
       case NAME:
         mathfunc(s);
+        break;
+      case '=':
+        pop();
+        if (last_character >= 'A' && last_character <= 'Z')
+          push(variable[last_character - 'A'] = pop());
+        else
+          printf("ERROR: Invalid variable: %c\n", last_character);
         break;
       case '+':
         push(pop() + pop());
@@ -53,7 +63,8 @@ int main(void) {
           push(fmod(pop(), op2));
         break;
       case '\n':
-        printf("\t%.8g\n", pop());
+        v = pop();
+        printf("\t%.8g\n", v);
         break;
       case 'p':                       /* print top stack without popping */
         op2 = pop();
@@ -75,9 +86,15 @@ int main(void) {
         clear();
         break;
       default:
-        printf("ERROR: Unknown command %s\n", s);
+        if (type >= 'A' && type <= 'Z')
+          push(variable[type - 'A']);
+        else if (type == 'v')       /* v is the variable containing the most recently printed output */
+          push(v);
+        else
+          printf("ERROR: Unknown command %s\n", s);
         break;
     }
+    last_character = type;          /* This is to save the last variable read */
   }
   return 0;
 }
@@ -151,7 +168,7 @@ int getop(char s[]) {
     if (strlen(s) > 1)                               /* name found! */
       return  NAME;
     else
-      return  c;                                     /* probably just a command */
+      return  s[--i];                                /* probably just a command */
   }
   if (!isdigit(c) && c != '.' && c != '+' && c != '-')
     return  c;                                       /* Not a number */
