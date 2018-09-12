@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>   /* for atof() */
 #include <math.h>     /* for double fmod(double, double) */
+#include <string.h>   /* for strcmp in mathfunc */
 
 #define   MAXOP     100 /* max size of operand or operator */
 #define   NUMBER    '0' /* a signal that a number was found */
-#define   FUNCTION  '1' /* a signal that a function was found */
+#define   NAME      'n' /* a signal that a name was found */
 
 int    getop(char []);
 void   push(double);
 double pop(void);
 void   clear(void);
-double f(double);
+void   mathfunc(char []);
 
 /* reverse Polish calculator */
 int main(void) {
@@ -24,8 +25,8 @@ int main(void) {
       case NUMBER:
         push(atof(s));
         break;
-      case FUNCTION:
-        push(f(pop()));
+      case NAME:
+        mathfunc(s);
         break;
       case '+':
         push(pop() + pop());
@@ -81,6 +82,24 @@ int main(void) {
   return 0;
 }
 
+/* mathfunc: calling functions based on the name string s */
+void mathfunc(char s[]) {
+  double  op2;
+
+  if (strcmp(s, "sin") == 0)             /* if s == sin, 0 returned */
+    push(sin(pop()));
+  else if (strcmp(s, "cos") == 0)
+    push(cos(pop()));
+  else if (strcmp(s, "exp") == 0)
+    push(exp(pop()));
+  else if (strcmp(s, "pow") == 0) {
+    op2 = pop();
+    push(pow(pop(), op2));
+  }
+  else
+    printf("ERROR: Unidentified name (%s) for function calls.\n", s);
+}
+
 #define     MAXVAL      100           /* maximum depth of val stack */
 
 int     sp = 0;                       /* next free stack position */
@@ -110,6 +129,7 @@ void clear(void) {
 }
 
 #include <ctype.h>
+#include <string.h>                                   /* used for strlen() */
 
 int   getch(void);
 void  ungetch(int);
@@ -121,9 +141,20 @@ int getop(char s[]) {
   while ((s[0] = c = getch()) == ' ' || c == '\t')    /* Dumbing garbage */
     ;
   s[1] = '\0';
+  i = 0;
+  if (islower(c)) {
+    while (islower(s[++i] = c = getch()))
+      ;
+    s[i] = '\0';
+    if (c != EOF)
+      ungetch(c);                                    /* Went one character too far */
+    if (strlen(s) > 1)                               /* name found! */
+      return  NAME;
+    else
+      return  c;                                     /* probably just a command */
+  }
   if (!isdigit(c) && c != '.' && c != '+' && c != '-')
     return  c;                                       /* Not a number */
-  i = 0;
   if (c == '-') {
     if (isdigit(c = getch()) || c == '.')
       s[++i] = c;                                    /* Fetch negative number */
