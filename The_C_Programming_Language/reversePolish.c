@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>   /* for atof() */
 #include <math.h>     /* for double fmod(double, double) */
-#include <string.h>   /* for strcmp in mathfunc */
+#include <string.h>   /* for strcmp in mathfunc, for ungets */
 
+#define   MAXLINE   100 /* max size of an input line */
 #define   MAXOP     100 /* max size of operand or operator */
 #define   NUMBER    '0' /* a signal that a number was found */
 #define   NAME      'n' /* a signal that a name was found */
@@ -13,6 +14,10 @@ void   push(double);
 double pop(void);
 void   clear(void);
 void   mathfunc(char []);
+int    getLine(char [], int);      /* alternative approach to getch and ungetch */
+
+int    line[MAXLINE];             /* an array containing 1 input line */
+int    li = 0;                    /* input line index */
 
 /* reverse Polish calculator */
 int main(void) {
@@ -117,6 +122,16 @@ void mathfunc(char s[]) {
     printf("ERROR: Unidentified name (%s) for function calls.\n", s);
 }
 
+/* ungets(s): push back an entire string onto the input, use ungetch */
+/* ungets does not need to know about buf and bufp since ungetch handles the pushback and the error checking. */
+void ungets(char s[]) {
+  int   len = strlen(s);
+  void  ungetch(int);
+
+  while (len > 0)
+    ungetch(s[--len]); /* reverse order, can write reverse(s) to fix it! */
+}
+
 #define     MAXVAL      100           /* maximum depth of val stack */
 
 int     sp = 0;                       /* next free stack position */
@@ -153,8 +168,19 @@ void  ungetch(int);
 
 /* getop: fetch the next numeric operand or operator */
 int getop(char s[]) {
-  int i, c;
+  int i, c, len, sign;
 
+  /* An alternative approach using getLine */
+  i = 0;
+  if (line[li] == '\0')
+    if (getLine(line, MAXLINE) == 0)
+      return EOF;
+    else
+      li = 0;
+  while () {
+    
+  }
+  /* This is the textbook approach using getch and ungetch */
   while ((s[0] = c = getch()) == ' ' || c == '\t')    /* Dumbing garbage */
     ;
   s[1] = '\0';
@@ -204,11 +230,21 @@ int getop(char s[]) {
 
 #define     BUFSIZE     100
 
-char  buf[BUFSIZE];   /* buffer for ungetch */
-int   bufp = 0;       /* next free position in buf */
+int  buf[BUFSIZE];   /* buffer for ungetch, type "int" to prevent EOF from being converted to char then to int, which can result unexpected result */
+int  bufp = 0;       /* next free position in buf */
+/* This is what happens when there is only one (or none) character to push back */
+/* int      buf = 0;                                                            */
 
 int getch(void) { /* get a (possibly pubshed back) character */
   return  (bufp > 0) ? buf[--bufp] : getchar();
+  /* int    c;
+
+  if (buf != 0)
+    c = buf;
+  else
+    c = getchar();
+  buf = 0;
+  return  c;      */
 }
 
 void ungetch(int c) { /* push character back on input */
@@ -216,4 +252,8 @@ void ungetch(int c) { /* push character back on input */
     buf[bufp++] = c;
   else
     printf("ungetch: buffer full, can't push\n");
+  // if (buf != 0)
+  //   printf("ungetch: buffer full! Can't get char.\n");
+  // else
+  //   buf = c;
 }
