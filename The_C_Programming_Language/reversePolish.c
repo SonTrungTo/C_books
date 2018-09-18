@@ -16,8 +16,8 @@ void   clear(void);
 void   mathfunc(char []);
 int    getLine(char [], int);      /* alternative approach to getch and ungetch */
 
-int    line[MAXLINE];             /* an array containing 1 input line */
-int    li = 0;                    /* input line index */
+char    line[MAXLINE];             /* an array containing 1 input line */
+int     li = 0;                    /* input line index */
 
 /* reverse Polish calculator */
 int main(void) {
@@ -132,6 +132,25 @@ void ungets(char s[]) {
     ungetch(s[--len]); /* reverse order, can write reverse(s) to fix it! */
 }
 
+/* getLine: get an entire string into a line, the upgraded version */
+int getLine(char s[], int lim) {
+  int   c, i, j;
+
+  i = j = 0;
+  while ((c = getchar()) != '\n' && c != '\0') {
+    if (i < lim - 2)
+      s[j++] = c;
+    ++i;
+  }
+  if (c == '\n') {
+    s[j++] = c;
+    ++i;
+  }
+  s[j] = '\0';
+
+  return    i;
+}
+
 #define     MAXVAL      100           /* maximum depth of val stack */
 
 int     sp = 0;                       /* next free stack position */
@@ -168,64 +187,104 @@ void  ungetch(int);
 
 /* getop: fetch the next numeric operand or operator */
 int getop(char s[]) {
-  int i, c, len, sign;
+  int i, c;
 
   /* An alternative approach using getLine */
-  i = 0;
   if (line[li] == '\0')
     if (getLine(line, MAXLINE) == 0)
       return EOF;
     else
       li = 0;
-  while () {
-    
-  }
-  /* This is the textbook approach using getch and ungetch */
-  while ((s[0] = c = getch()) == ' ' || c == '\t')    /* Dumbing garbage */
+  while ((s[0] = c = line[li++]) == ' ' || c == '\t') /* Dumbing garbage */
     ;
   s[1] = '\0';
   i = 0;
   if (islower(c)) {
-    while (islower(s[++i] = c = getch()))
+    while (islower(s[++i] = c = line[li++]))
       ;
     s[i] = '\0';
-    if (c != EOF)
-      ungetch(c);                                    /* Went one character too far */
-    if (strlen(s) > 1)                               /* name found! */
-      return  NAME;
+    li--;
+    if (strlen(s) > 1)
+      return  NAME;                                    /* name detected! */
     else
-      return  s[--i];                                /* probably just a command */
+      return  s[--i];                                 /* probably just a command */
   }
-  if (!isdigit(c) && c != '.' && c != '+' && c != '-')
-    return  c;                                       /* Not a number */
-  if (c == '-') {
-    if (isdigit(c = getch()) || c == '.')
-      s[++i] = c;                                    /* Fetch negative number */
+  if (!isdigit(c) && c != '.' && c != '-' && c != '+')
+    return c;                                         /* Not a number */
+  if (c == '-') {                                     /* Fetch a negative number */
+    if (isdigit(c = line[li++]) || c == '.')
+      s[++i] = c;
     else {
-      if (c != EOF)
-        ungetch(c);
+      li--;
       return  '-';
     }
   }
-  if (c == '+') {
-    if (isdigit(c = getch()) || c == '.')
-      s[++i] = c;                                    /* Fetch positive number */
+  if (c == '+') {                                    /* Fetch a positive number */
+    if (isdigit(c = line[li++]) || c == '.')
+      s[++i] = c;
     else {
-      if (c != EOF)
-        ungetch(c);
+      li--;
       return  '+';
     }
   }
   if (isdigit(c))
-    while (isdigit(s[++i] = c = getch()))           /* Fetch integer part */
+    while (isdigit(s[++i] = c = line[li++]))          /* Fetch integer part */
       ;
   if (c == '.')
-    while (isdigit(s[++i] = c = getch()))          /* Fetch fraction part */
+    while (isdigit(s[++i] = c = line[li++]))          /* Fetch fraction part */
       ;
   s[i] = '\0';
-  if (c != EOF)
-    ungetch(c);
+  li--;                                               /* substitute for ungetch, we don't use getchar() so no EOF */
   return  NUMBER;
+
+
+
+  // /* This is the textbook approach using getch and ungetch */
+  // while ((s[0] = c = getch()) == ' ' || c == '\t')    /* Dumbing garbage */
+  //   ;
+  // s[1] = '\0';
+  // i = 0;
+  // if (islower(c)) {
+  //   while (islower(s[++i] = c = getch()))
+  //     ;
+  //   s[i] = '\0';
+  //   if (c != EOF)
+  //     ungetch(c);                                    /* Went one character too far */
+  //   if (strlen(s) > 1)                               /* name found! */
+  //     return  NAME;
+  //   else
+  //     return  s[--i];                                /* probably just a command */
+  // }
+  // if (!isdigit(c) && c != '.' && c != '+' && c != '-')
+  //   return  c;                                       /* Not a number */
+  // if (c == '-') {
+  //   if (isdigit(c = getch()) || c == '.')
+  //     s[++i] = c;                                    /* Fetch negative number */
+  //   else {
+  //     if (c != EOF)
+  //       ungetch(c);
+  //     return  '-';
+  //   }
+  // }
+  // if (c == '+') {
+  //   if (isdigit(c = getch()) || c == '.')
+  //     s[++i] = c;                                    /* Fetch positive number */
+  //   else {
+  //     if (c != EOF)
+  //       ungetch(c);
+  //     return  '+';
+  //   }
+  // }
+  // if (isdigit(c))
+  //   while (isdigit(s[++i] = c = getch()))           /* Fetch integer part */
+  //     ;
+  // if (c == '.')
+  //   while (isdigit(s[++i] = c = getch()))          /* Fetch fraction part */
+  //     ;
+  // s[i] = '\0';
+  // if (c != EOF)
+  //   ungetch(c);
+  // return  NUMBER;
 }
 
 #define     BUFSIZE     100
