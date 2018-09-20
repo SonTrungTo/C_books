@@ -5,8 +5,8 @@
 
 #define     BUFSIZE     100
 
-int  buf[BUFSIZE];   /* buffer for ungetch, type "int" to prevent EOF from being converted to char then to int, which can result unexpected result */
-int  bufp = 0;       /* next free position in buf */
+static int  buf[BUFSIZE];   /* buffer for ungetch, type "int" to prevent EOF from being converted to char then to int, which can result unexpected result */
+static int  bufp = 0;       /* next free position in buf */
 /* This is what happens when there is only one (or none) character to push back */
 /* int      buf = 0;                                                            */
 
