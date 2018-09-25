@@ -55,7 +55,26 @@ void shellsort(int v[], int n) {
 }
 
 /* qsort: sort v[left]...v[right] into an increasing order, C.A.R.Hoare, 1962 */
-void qsort(/* arguments */) {
-  /* code */
-  return 0;
+void qsort(int v[], int left, int right) {
+  void    swap(int [], int, int);
+  int     i, last;
+
+  if (left >= right)                  /* algorithm stops if the array contains */
+    return;                           /* less than two elements. */
+  last = left;
+  swap(v, left, (left + right) / 2);  /* move the partition element to v[0] */
+  for (i = left + 1; i <= right; i++)
+    if (v[left] > v[i])
+      swap(v, i, ++last);
+  swap(v, left, last);               /* put the partition element back. */
+  qsort(v, left, last - 1);
+  qsort(v, last + 1, right);        /* if last is used instead, it does not WORK! ?????? WHY???????????????????????????????? */
+}
+
+void swap(int v[], int i, int j) {
+  int     temp;
+
+  temp = v[i];
+  v[i] = v[j];
+  v[j] = temp;
 }
