@@ -67,8 +67,8 @@ void qsort(int v[], int left, int right) {
     if (v[left] > v[i])
       swap(v, i, ++last);
   swap(v, left, last);               /* put the partition element back. */
-  qsort(v, left, last - 1);
-  qsort(v, last + 1, right);        /* if last is used instead, it does not WORK! ?????? WHY???????????????????????????????? */
+  qsort(v, left, last - 1);          /* last can be substituted! */
+  qsort(v, last + 1, right);         /* if last is used instead, it does not WORK! Take the example of [0, 1] */
 }
 
 void swap(int v[], int i, int j) {
