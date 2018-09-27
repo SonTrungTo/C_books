@@ -18,6 +18,7 @@ void itoa(int n, char s[]) {
   if (n / 10)
     itoa(n / 10, s);
   s[i++] = abs(n % 10) + '0';
+  s[i] = '\0';                  /* End of string is important! */
 }
 
 int main(void) {
