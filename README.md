@@ -18,4 +18,4 @@ Label: AcceleratedC++
 
 ## Professional
 * [The C Programming Language](https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628) - Brian Kernighan, Dennis Ritchie. (status: ongoing, 2nd reading)
-  * The granddaddy of all C books.
+  * The granddaddy of all C books. Doing 2nd reading
