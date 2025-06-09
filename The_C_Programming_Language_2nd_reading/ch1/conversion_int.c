@@ -5,4 +5,7 @@
 int main()
 {
     int fahr, celsius;
+    int lower, upper, steps;
+
+    lower = 0; /* lower limit of temperature table */
 }
