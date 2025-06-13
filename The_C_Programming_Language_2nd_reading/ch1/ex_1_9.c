@@ -7,7 +7,9 @@ int main()
 
     for (nb = 0; (c = getchar()) != EOF;)
     {
-       if (c == ' ' || c == '\t') ++nb; /* ??? */
+       if (c == ' ' || c == '\t') ++nb;
+       else nb = 0;
+       if (nb == 0) putchar(c);
+       if (nb == 1) putchar(' ');
     }
-    
 }
