@@ -3,9 +3,9 @@
 /* count characters in input; 2nd version */
 int main()
 {
-    double wc;
+    double nc;
 
-    for (wc = 0; getchar() != EOF; ++wc)
+    for (nc = 0; getchar() != EOF; ++nc)
         ;
-    printf("%.0f\n", wc);
+    printf("%.0f\n", nc);
 }
