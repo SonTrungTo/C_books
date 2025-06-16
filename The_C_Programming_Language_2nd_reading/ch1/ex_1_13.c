@@ -15,12 +15,11 @@ int main()
     for (int i = 0; i < SIZE; i++)
         nlength[i] = 0;
     
-    while ((c = getchar()) != EOF)
-    {
+    while ((c = getchar()) != EOF) {
         if (c == ' ' || c == '\t' || c == '\n') {
             state = OUT;
-            if (wlength > 0 && wlength <= STEP) ++nlength[0];
-            else if (wlength > STEP && wlength <= (STEP * 2)) ++nlength[1];
+            if (wlength > (STEP * 0) && wlength <= (STEP * 1)) ++nlength[0];
+            else if (wlength > (STEP * 1) && wlength <= (STEP * 2)) ++nlength[1];
             else if (wlength > (STEP * 2) && wlength <= (STEP * 3)) ++nlength[2];
             else if (wlength > (STEP * 3)) ++nlength[3];
             wlength = 0;
@@ -33,10 +32,17 @@ int main()
             }
         }
     }
-    printf("arrays:");
-    for (int i = 0; i < SIZE; i++)
-    {
-        printf(" %d", nlength[i]);
+    for (int i = 0; i < SIZE; i++) {
+        if (i == SIZE - 1) {
+            printf("> %4d", STEP * (i + 1));
+        } else {
+            printf("%d - %2d", STEP * i, STEP * (i + 1));
+        }
+        printf(" ");
+        while (nlength[i]-- > 0) {
+            printf("x");
+        }
+        printf("\n");
     }
     printf("\n");
 }
