@@ -5,7 +5,7 @@
 #define     IN      1 /* inside a word */
 #define     OUT     0 /* outside a word */
 
-/* Print histogram of the lengths of words HORIZONTALLY */
+/* Print histogram of the lengths of words */
 int main()
 {
     int c, state, wlength;
@@ -32,6 +32,7 @@ int main()
             }
         }
     }
+    // Horizontal orientation
     for (int i = 0; i < SIZE; i++) {
         if (i == SIZE - 1) {
             printf("> %4d", STEP * (i + 1));
@@ -45,4 +46,6 @@ int main()
         printf("\n");
     }
     printf("\n");
+    // Vertical orientation
+    
 }
