@@ -55,11 +55,18 @@ int main()
     printf("\n");
     for (int i = 0; i < SIZE; i++)
         if (threshold < nlength[i]) threshold = nlength[i];  /* Threshold is the highest frequency of histogram */
-    while (threshold > 0) {
+    while (threshold >= 0) {
         for (int i = 0; i < SIZE; i++) {
             blankOffset = i + 1;
             while (blankOffset-- > 0) printf("%3s", " ");
-            if (nlength[i] >= threshold) printf("%3s", "x"); /* Print data only if the frequency is greater than or equal to the threshold */
+            if (threshold > 0 && nlength[i] >= threshold) printf("%5s", "x"); /* Print data only if the frequency is greater than or equal to the threshold */
+            if (threshold == 0) {   /* Print the labels in the last loop */
+                if (i == SIZE - 1) {
+                    printf("> %d", STEP * i);
+                } else {
+                    printf("%d - %d", STEP * i, STEP * (i + 1));
+                }
+            }
         }
         --threshold;
         printf("\n");
