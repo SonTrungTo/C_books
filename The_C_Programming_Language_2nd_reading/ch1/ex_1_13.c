@@ -8,7 +8,7 @@
 /* Print histogram of the lengths of words */
 int main()
 {
-    int c, state, threshold, wlength, ncat;
+    int blankOffset, c, state, threshold, wlength, ncat;
     int nlength[SIZE];
 
     threshold = 0;
@@ -54,13 +54,15 @@ int main()
     printf("%120s", "Vertical orientation of histogram");
     printf("\n");
     for (int i = 0; i < SIZE; i++)
-        if (threshold < nlength[i]) threshold = nlength[i];
-    while (threshold-- > 0) {
-        for (int i = 0; i < SIZE; i++)
-        {
-            /* code */
+        if (threshold < nlength[i]) threshold = nlength[i];  /* Threshold is the highest frequency of histogram */
+    while (threshold > 0) {
+        for (int i = 0; i < SIZE; i++) {
+            blankOffset = i + 1;
+            while (blankOffset-- > 0) printf("%3s", " ");
+            if (nlength[i] >= threshold) printf("%3s", "x"); /* Print data only if the frequency is greater than or equal to the threshold */
         }
-        
+        --threshold;
+        printf("\n");
     }
-    
+    printf("\n");
 }
