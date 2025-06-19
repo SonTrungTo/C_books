@@ -20,6 +20,7 @@ int main()
     printf("A: %d\n", 'A');
     printf("B: %d\n", 'B');
     printf("Z: %d\n", 'Z');
+    printf("C: %c\n", 91);
 
     // while ((c = getchar()) != EOF) {
     //     if (c >= 'a')
@@ -34,6 +35,6 @@ int main()
     //     {
     //         /* code */
     //     }
-        
+
     // }
 }
