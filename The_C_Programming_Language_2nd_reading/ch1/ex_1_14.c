@@ -13,28 +13,19 @@ int main()
     for (int i = 0; i < NCHAR_SIZE; i++)
        nchars[i] = 0;
 
-    // Need to factor in uppercase vs lowercase letters
-    printf("a: %d\n", 'a');
-    printf("b: %d\n", 'b');
-    printf("z: %d\n", 'z');
-    printf("A: %d\n", 'A');
-    printf("B: %d\n", 'B');
-    printf("Z: %d\n", 'Z');
-    printf("C: %c\n", 91);
+    while ((c = getchar()) != EOF) {
+        if (c >= 'a' && c <= 'z') ++nchars[c - 'a'];
+        else if (c >= 'A' && c <= 'Z') ++nchars[c - 'A'];
+        else if (c == ' ' || c == '\t' || c == '\n') ++nb;
+        else ++nothers;
+    }
 
-    // while ((c = getchar()) != EOF) {
-    //     if (c >= 'a')
-    //     {
-    //         /* code */
-    //     }
-    //     else if (condition)
-    //     {
-    //         /* code */
-    //     }
-    //     else
-    //     {
-    //         /* code */
-    //     }
-
-    // }
+    printf("alphabets: ");
+    for (int i = 0; i < NCHAR_SIZE; i++)
+    {
+        printf("%d ", nchars[i]);
+    }
+    printf("\n");
+    printf(", blanks: %d\n", nb);
+    printf(", others: %d\n", nothers);
 }
