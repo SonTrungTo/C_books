@@ -2,7 +2,7 @@
 
 #define NCHAR_SIZE 26 /* Size of all alphabet characters in English */
 
-/* Print a histogram of the frequencies of different characters */
+/* Print a histogram of the frequencies of different characters (proof of concept) */
 int main()
 {
     int c, nb, nothers;
