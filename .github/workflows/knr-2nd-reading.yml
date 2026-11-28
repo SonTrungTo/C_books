@@ -13,7 +13,7 @@ concurrency:                            # a newer push cancels the older run
 
 jobs:
   list:
-    runs-on: ubuntu-26.04
+    runs-on: &runner ubuntu-26.04
     outputs:
       dirs: ${{ steps.find.outputs.dirs }}
     steps:
@@ -33,8 +33,11 @@ jobs:
       fail-fast: false                    # one red exercise won't stop others
       matrix:
         dir: ${{ fromJSON(needs.list.outputs.dirs) }}
-    runs-on: ubuntu-26.04
+    runs-on: *runner
     container: gcc:15.2.0
+    env:
+      CC: gcc
+      DIR: ${{ matrix.dir }}              # passed as data, not pasted into bash
     defaults:
       run:
         working-directory: The_C_Programming_Language_2nd_reading
@@ -48,6 +51,4 @@ jobs:
           v=$("$CC" -dumpfullversion)
           [ "$v" = 15.2.0 ] || { echo "::error::expected gcc 15.2.0, got $v"; exit 1; }
       - name: Run tests
-        env:
-          DIR: ${{ matrix.dir }}          # passed as data, not pasted into bash
         run: bash tools/check.sh "$DIR"
