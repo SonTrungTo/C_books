@@ -1,0 +1,46 @@
+name: K&R 2nd reading
+
+on:
+    push:
+      paths:
+        - "The_C_Programming_Language_2nd_reading/**"
+        - ".github/workflows/knr-2nd-reading.yml"
+    workflow_dispatch:                  # adds a "Run workflow" button
+  
+concurrency:                            # a newer push cancels the older run
+    group: knr-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+  list:
+    runs-on: &runner ubuntu-26.04
+    outputs:
+      dirs: ${{ steps.find.outputs.dirs }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: find
+        working-directory: The_C_Programming_Language_2nd_reading
+        run: |
+          dirs=$(find ch* -mindepth 1 -maxdepth 1 -type d -name 'ex_*' \
+                   | sort -V | jq -Rnc '[inputs]')
+          echo "dirs=$dirs" >> "$GITHUB_OUTPUT"
+
+  exercise:
+    needs: list
+    if: needs.list.outputs.dirs != '[]'   # an empty matrix is an error
+    name: ${{ matrix.dir }}               # check shows as "ch1/ex_1_16"
+    strategy:
+      fail-fast: false                    # one red exercise won't stop others
+      matrix:
+        dir: ${{ fromJSON(needs.list.outputs.dirs) }}
+    runs-on: *runner
+    container: gcc:15.2.0
+    defaults:
+      run:
+        working-directory: The_C_Programming_Language_2nd_reading
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run tests
+        env:
+          DIR: ${{ matrix.dir }}              # passed as data, not pasted into bash
+        run: bash tools/check.sh "$DIR"
