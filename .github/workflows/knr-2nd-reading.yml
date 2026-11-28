@@ -1,0 +1,24 @@
+name: K&R 2nd reading
+
+on:
+    push:
+      paths:
+        - "The_C_Programming_Language_2nd_reading/**"
+        - ".github/workflows/knr-2nd-reading.yml"
+    workflow_dispatch:                  # adds a "Run workflow" button
+  
+concurrency:                            # a newer push cancels the older run
+    group: knr-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    exercises: 
+      runs-on: ubuntu-24-04             # only hosts Docker...
+      container: gcc:15                 # ...the compiler comes from here
+      timeout-minutes: 10
+      defaults:
+        run:
+          working-directory: The_C_Programming_Language_2nd_reading
+      steps:
+        - uses: actions/checkout@v5
+        - run: bash tools/check.sh
