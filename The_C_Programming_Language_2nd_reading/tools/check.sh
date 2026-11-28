@@ -8,13 +8,15 @@
 # program; each tests/NAME.in is fed to stdin, and stdout must match
 # tests/NAME.expected byte for byte. Optional tests/NAME.args = argv.
 set -uo pipefail
-shopt -s nullglob
+shopt -s nullglob                        # otherwise unmatched glob returns raw strings
 cd "$(dirname "$0")/.." || exit 1        # paths are relative to the book
 
 CC=${CC:-gcc}
 CFLAGS=(-std=c23 -pedantic -Wall -Wextra -Werror -g -O1
         -fsanitize=address,undefined -fno-sanitize-recover=all
         -fno-omit-frame-pointer)
+SUCCESS_CODE = 0
+TIMEOUT_CODE = 124
 
 row() {                                  # one line of the job summary
   if [[ -n ${GITHUB_STEP_SUMMARY:-} ]]; then
@@ -34,7 +36,7 @@ check() {
   fi
   if (( ${#srcs[@]} == 0 )); then
     echo "   no .c files (written answer)"; row "$dir" "📝 text only"
-    return 0
+    return $(SUCCESS_CODE)
   fi
   if ! "$CC" "${CFLAGS[@]}" -o "$bin" "${srcs[@]}"; then
     echo "   FAIL: does not compile (gcc's messages are above)"
@@ -42,7 +44,7 @@ check() {
   fi
   if (( ${#tests[@]} == 0 )); then
     echo "   compiles; no tests yet"; row "$dir" "🟡 compiles, no tests"
-    return 0
+    return $(SUCCESS_CODE)
   fi
 
   out=$(mktemp) err=$(mktemp)
@@ -52,8 +54,8 @@ check() {
     timeout 10 "$bin" "${args[@]}" < "$t" > "$out" 2> "$err"; rc=$?
 
     if   [[ ! -f $base.expected ]]; then why="no ${base##*/}.expected file"
-    elif (( rc == 124 ));           then why="still running after 10 s"
-    elif (( rc != 0 ));             then why="exit status $rc"
+    elif (( rc == $(TIMEOUT_CODE) ));             then why="still running after 10 s"
+    elif (( rc != $(SUCCESS_CODE) ));             then why="exit status $rc"
     elif ! cmp -s "$base.expected" "$out"; then why="output differs"
     else
       echo "   ok   ${base##*/}"; pass=$((pass + 1)); continue
