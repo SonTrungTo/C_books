@@ -33,7 +33,7 @@ jobs:
       fail-fast: false                    # one red exercise won't stop others
       matrix:
         dir: ${{ fromJSON(needs.list.outputs.dirs) }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     container: gcc:15.2.0
     defaults:
       run:
