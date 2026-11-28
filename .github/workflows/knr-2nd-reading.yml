@@ -40,6 +40,14 @@ jobs:
         working-directory: The_C_Programming_Language_2nd_reading
     steps:
       - uses: actions/checkout@v5
-      - env:
+      - name: Check Ubuntu and gcc versions
+        run: |
+          . /etc/os-release
+          echo "$PRETTY_NAME, $("$CC" --version | head -n 1)"
+          [ "$VERSION_ID" = 26.04 ] || { echo "::error::expected Ubuntu 26.04, got $VERSION_ID"; exit 1; }
+          v=$("$CC" -dumpfullversion)
+          [ "$v" = 15.2.0 ] || { echo "::error::expected gcc 15.2.0, got $v"; exit 1; }
+      - name: Run tests
+        env:
           DIR: ${{ matrix.dir }}          # passed as data, not pasted into bash
         run: bash tools/check.sh "$DIR"
