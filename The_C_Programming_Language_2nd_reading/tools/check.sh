@@ -15,8 +15,10 @@ CC=${CC:-gcc}
 CFLAGS=(-std=c23 -pedantic -Wall -Wextra -Werror -g -O1
         -fsanitize=address,undefined -fno-sanitize-recover=all
         -fno-omit-frame-pointer)
-SUCCESS_CODE = 0
-TIMEOUT_CODE = 124
+
+readonly SUCCESS_CODE=0
+readonly TIMEOUT_CODE=124
+readonly TIME_LIMIT=10
 
 row() {                                  # one line of the job summary
   if [[ -n ${GITHUB_STEP_SUMMARY:-} ]]; then
@@ -36,7 +38,7 @@ check() {
   fi
   if (( ${#srcs[@]} == 0 )); then
     echo "   no .c files (written answer)"; row "$dir" "📝 text only"
-    return $(SUCCESS_CODE)
+    return "$SUCCESS_CODE"
   fi
   if ! "$CC" "${CFLAGS[@]}" -o "$bin" "${srcs[@]}"; then
     echo "   FAIL: does not compile (gcc's messages are above)"
@@ -44,19 +46,19 @@ check() {
   fi
   if (( ${#tests[@]} == 0 )); then
     echo "   compiles; no tests yet"; row "$dir" "🟡 compiles, no tests"
-    return $(SUCCESS_CODE)
+    return "$SUCCESS_CODE"
   fi
 
   out=$(mktemp) err=$(mktemp)
   for t in "${tests[@]}"; do
     base=${t%.in} args=()
     if [[ -f $base.args ]]; then read -ra args < "$base.args"; fi
-    timeout 10 "$bin" "${args[@]}" < "$t" > "$out" 2> "$err"; rc=$?
+    timeout "$TIME_LIMIT" "$bin" "${args[@]}" < "$t" > "$out" 2> "$err"; rc=$?
 
-    if   [[ ! -f $base.expected ]]; then why="no ${base##*/}.expected file"
-    elif (( rc == $(TIMEOUT_CODE) ));             then why="still running after 10 s"
-    elif (( rc != $(SUCCESS_CODE) ));             then why="exit status $rc"
-    elif ! cmp -s "$base.expected" "$out"; then why="output differs"
+    if   [[ ! -f $base.expected ]];               then why="no ${base##*/}.expected file"
+    elif (( rc == TIMEOUT_CODE ));                then why="still running after $TIME_LIMIT s"
+    elif (( rc != SUCCESS_CODE ));                then why="exit status $rc"
+    elif ! cmp -s "$base.expected" "$out";        then why="output differs"
     else
       echo "   ok   ${base##*/}"; pass=$((pass + 1)); continue
     fi
